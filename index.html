@@ -6,223 +6,71 @@
 <title>For Laila 💕</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-body {
-    font-family: 'Nunito', sans-serif;
-    text-align: center;
-    margin: 0;
-    overflow: hidden;
-    background: linear-gradient(135deg, #ff9a9e, #fecfef);
-}
-
-/* Floating hearts */
-.hearts span {
-    position: fixed;
-    bottom: -10px;
-    font-size: 20px;
-    animation: float 6s linear infinite;
-}
-
-@keyframes float {
-    0% { transform: translateY(0); opacity: 1;}
-    100% { transform: translateY(-110vh); opacity: 0;}
-}
-
-.container {
-    margin-top: 80px;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-h1 {
-    font-size: 32px;
-    font-weight: 900;
-    color: white;
-    text-shadow: 0 0 10px rgba(255,0,100,0.6);
-    min-height: 60px;
-}
-
-img {
-    width: 200px;
-    margin: 20px 0;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%,100% { transform: translateY(0);}
-    50% { transform: translateY(-10px);}
-}
-
-.buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-button {
-    padding: 14px 28px;
-    font-size: 16px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-#yes-btn {
-    background: #00c853;
-    color: white;
-    box-shadow: 0 0 15px #00c853;
-    transform-origin: center center;
-}
-
-#no-btn {
-    background: #ff1744;
-    color: white;
-    min-width: 120px;  /* fixed width so it won’t grow */
-}
-
-#music-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: white;
-    border-radius: 50%;
-    padding: 10px;
-    cursor: pointer;
-}
-
-/* Final page text typing */
-.final-text {
-    font-size: 22px;
-    font-weight: 700;
-    color: white;
-    text-shadow: 0 0 10px rgba(0,0,0,0.5);
-    min-height: 60px;
-    margin-top: 30px;
-}
+    body { font-family: 'Nunito', sans-serif; text-align: center; margin: 0; overflow: hidden; background: linear-gradient(135deg, #ff9a9e, #fecfef); height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .container { z-index: 10; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 80%; max-width: 400px; }
+    h1 { color: #d63384; font-size: 24px; }
+    .btns { margin-top: 20px; display: flex; justify-content: center; gap: 20px; position: relative; }
+    button { padding: 12px 25px; font-size: 18px; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+    #yes-btn { background: #ff4d6d; color: white; }
+    #no-btn { background: #808080; color: white; position: absolute; left: 160px; }
+    #final-msg { margin-top: 20px; font-size: 18px; color: #555; line-height: 1.5; font-weight: bold; }
+    .hearts span { position: fixed; bottom: -10px; font-size: 20px; animation: float 6s linear infinite; }
+    @keyframes float { 0% { transform: translateY(0); opacity: 1;} 100% { transform: translateY(-110vh); opacity: 0;} }
 </style>
 </head>
-
 <body>
-<div class="hearts" id="hearts"></div>
 
-<div class="container">
-    <h1 id="typing-text"></h1>
-    <img id="gif" src="https://media.tenor.com/6zVZ8g6fXhQAAAAi/sad-bear.gif">
-    <div class="buttons">
-        <button id="yes-btn">Yes 💕</button>
-        <button id="no-btn">No 😔</button>
+<div class="hearts" id="heart-container"></div>
+
+<div class="container" id="main-card">
+    <h1 id="question">Laila, will you forgive me? 💕</h1>
+    <div class="btns" id="btn-group">
+        <button id="yes-btn" onclick="celebrate()">Yes</button>
+        <button id="no-btn" onmouseover="moveButton()" onclick="moveButton()">No</button>
     </div>
+    <div id="final-msg"></div>
 </div>
 
-<audio id="music" loop autoplay>
-    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
-</audio>
-
-<div id="music-btn">🔊</div>
-
 <script>
-// Floating hearts
-setInterval(() => {
-    const heart = document.createElement("span");
-    heart.innerHTML = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (3 + Math.random()*3) + "s";
-    document.getElementById("hearts").appendChild(heart);
-    setTimeout(() => heart.remove(), 6000);
-}, 300);
+    // Floating Hearts
+    setInterval(() => {
+        const heart = document.createElement("span");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        document.getElementById("heart-container").appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+    }, 300);
 
-// Typing effect for first question
-const text = "Will you be mine again, Laila? 💖";
-let i = 0;
-function typeEffect() {
-    if (i < text.length) {
-        document.getElementById("typing-text").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeEffect, 50);
+    // No Button Moves
+    function moveButton() {
+        const btn = document.getElementById("no-btn");
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 50);
+        btn.style.position = "fixed";
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
     }
-}
-typeEffect();
 
-// Buttons
-let noClickCount = 0;
-const noBtn = document.getElementById("no-btn");
-const yesBtn = document.getElementById("yes-btn");
-
-noBtn.addEventListener("click", () => {
-    noClickCount++;
-    let scale = 1 + noClickCount*0.25;
-    yesBtn.style.transform = `scale(${scale})`; // grows only yes button
-    // Keep no button text playful
-    if(noClickCount===1) noBtn.innerText="Man jao naa?? 😣";
-    else if(noClickCount===2) noBtn.innerText="Please lailooo?? 🥺";
-    else if(noClickCount===3) noBtn.innerText="Phir sy no bola tu ill be really sad… 💔";
-    else if(noClickCount===4) noBtn.innerText="Last time bolrha hun… 😞";
-    else if(noClickCount>=5){
-        noBtn.innerText="Ab bolo zara NO 😏";
-        noBtn.style.position="absolute";
-        noBtn.style.top=Math.random()*80+"%";
-        noBtn.style.left=Math.random()*80+"%";
-    }
-});
-
-// YES CLICK
-yesBtn.addEventListener("click", () => {
-    document.body.innerHTML = `
-    <div style="position: relative; height: 100vh; overflow: hidden; background: linear-gradient(135deg, #ff9a9e, #fecfef);">
-        <h1 style="font-size:36px; font-weight:900; color:white; margin-top:40px; text-shadow:0 0 15px #ff00aa;">Thank you, ILYSM ❤️</h1>
-        <img src="https://media.tenor.com/9rQzZ3zH5XgAAAAi/happy-bear.gif" width="250" style="animation:bounce 2s infinite; margin-top:20px;">
-        <div class="final-text" id="final-msg"></div>
-        <div id="confetti"></div>
-    </div>
-    `;
-
-    // Typing effect for final message
-    const msg = "Let’s start again in a better way. 
-Jo bhi hua, jaise bhi hua, but my love for you woh hamesha sy constant rha. Hum ne 2 saal ek saath boht achay se spend kiye—kuch ghaltiyan thin, but I promise I’ll become a better person for you and give you only happy moments from now on.
-It’s already been too much, meri jaan. Please ab bas kar do. No one is saying sab bhool jao beshak jo kuch kehna hai, jitna ghussa nikalna hai, mere paas aa ke nikal dena. I can do anything, but losing you is something I cannot afford.
-Waiting for you, my love! :)";
-    let j=0;
-    const finalMsg = document.getElementById("final-msg");
-    function typeFinal() {
-        if(j<msg.length){
-            if(msg[j]==='\n') finalMsg.innerHTML += '<br>';
-            else finalMsg.innerHTML += msg[j];
-            j++;
-            setTimeout(typeFinal, 50);
+    // Yes Button Click
+    function celebrate() {
+        document.getElementById("question").innerHTML = "I Knew It! ❤️";
+        document.getElementById("btn-group").style.display = "none";
+        
+        const msg = "Lailo, I know I have been a bit too much sometimes, but it's only because I can't imagine my life without you. 2 saal ki investment hai, isay aise zaya mat hone dena. I'm sorry for everything. Waiting for you, my love! :)";
+        let j = 0;
+        const finalMsg = document.getElementById("final-msg");
+        
+        function typeFinal() {
+            if (j < msg.length) {
+                finalMsg.innerHTML += msg[j];
+                j++;
+                setTimeout(typeFinal, 50);
+            }
         }
+        typeFinal();
     }
-    typeFinal();
-
-    // Confetti
-    for(let k=0;k<200;k++){
-        const c = document.createElement("div");
-        c.style.position="fixed";
-        c.style.width="10px";
-        c.style.height="10px";
-        c.style.background=["#ff69b4","#ff1493","#ffb6c1","#fff0f5"][Math.floor(Math.random()*4)];
-        c.style.top=Math.random()*100+"%";
-        c.style.left=Math.random()*100+"%";
-        c.style.borderRadius="50%";
-        c.style.animation="confettiFall "+(3+Math.random()*2)+"s linear infinite";
-        document.body.appendChild(c);
-    }
-    const style=document.createElement("style");
-    style.innerHTML="@keyframes confettiFall{0%{transform:translateY(0);}100%{transform:translateY(110vh);}}";
-    document.head.appendChild(style);
-});
-
-// Music toggle
-const music=document.getElementById("music");
-const btn=document.getElementById("music-btn");
-btn.addEventListener("click",()=>{
-    if(music.paused){music.play(); btn.innerText="🔊";}
-    else {music.pause(); btn.innerText="🔇";}
-});
 </script>
+
 </body>
 </html>
