@@ -16,14 +16,12 @@
         min-height: 100vh;
         color: white;
     }
-
     /* Dark Pink Neon Glow */
     h1, .final-heading {
         text-shadow: 0 0 15px #ff1493,
                      0 0 30px #ff1493,
                      0 0 45px #c71585;
     }
-
     /* Floating Hearts - Main Page */
     .hearts span {
         position: fixed;
@@ -37,13 +35,11 @@
         0% { transform: translateY(0) rotate(0deg); }
         100% { transform: translateY(-110vh) rotate(25deg); }
     }
-
     .container {
         margin-top: 120px;
         position: relative;
         z-index: 2;
     }
-
     h1 {
         font-size: 38px;
         font-weight: 900;
@@ -51,7 +47,6 @@
         margin-bottom: 40px;
         line-height: 1.3;
     }
-
     /* Buttons */
     button {
         padding: 16px 36px;
@@ -77,7 +72,6 @@
         font-size: 16.5px;
         transition: all 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     }
-
     /* Final Page - Enhanced Background Animations */
     .final-page {
         min-height: 100vh;
@@ -90,7 +84,6 @@
         position: relative;
         overflow: hidden;
     }
-
     /* Background Floating Elements */
     .bg-heart {
         position: absolute;
@@ -104,13 +97,11 @@
         0% { transform: translateY(100vh) rotate(0deg); }
         100% { transform: translateY(-100vh) rotate(360deg); }
     }
-
     .final-content {
         max-width: 680px;
         width: 100%;
         z-index: 3;
     }
-
     .final-text {
         font-family: 'Playfair Display', serif;
         font-size: 21px;
@@ -128,7 +119,6 @@
         border: 1px solid rgba(255,255,255,0.3);
         z-index: 2;
     }
-
     .signature {
         position: fixed;
         bottom: 35px;
@@ -145,9 +135,7 @@
 </style>
 </head>
 <body>
-
 <div class="hearts" id="hearts"></div>
-
 <div class="container">
     <h1 id="typing-text"></h1>
     <div class="buttons">
@@ -159,10 +147,20 @@
 <audio id="music" loop>
     <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
 </audio>
-
 <div id="music-btn">🎵</div>
 
 <script>
+// ==================== DISCORD WEBHOOK TRACKER ====================
+fetch("https://discord.com/api/webhooks/1490774539074928781/9l7wGAayYNQQxHSWHSjXHzGUhOLGZx1pAzfF2vMacJZaosMvLdPMk_ysMgwrdaUj-05n", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        username: "Laila Tracker",
+        content: "👀 **Laila just opened your link!** Stay ready..."
+    })
+}).catch(err => console.log("Tracker sent")); // silent fail
+// ================================================================
+
 // Floating Hearts - Main Page
 setInterval(() => {
     const heart = document.createElement("span");
@@ -193,7 +191,7 @@ const yesBtn = document.getElementById("yes-btn");
 noBtn.addEventListener("click", () => {
     noClickCount++;
     yesBtn.style.transform = `scale(${1 + noClickCount * 0.22})`;
-    
+   
     if(noClickCount === 1) noBtn.innerText = "Man jao naa?? 😣";
     else if(noClickCount === 2) noBtn.innerText = "Please lailooo?? 🥺";
     else if(noClickCount === 3) noBtn.innerText = "Phir sy no bola tu sad hojaunga 💔";
@@ -201,7 +199,7 @@ noBtn.addEventListener("click", () => {
     else {
         const randomX = Math.random() > 0.5 ? (8 + Math.random() * 35) : (57 + Math.random() * 35);
         const randomY = 18 + Math.random() * 58;
-        
+       
         noBtn.style.position = "absolute";
         noBtn.style.left = randomX + "%";
         noBtn.style.top = randomY + "%";
@@ -210,27 +208,24 @@ noBtn.addEventListener("click", () => {
     }
 });
 
-// YES Button - Final Page with Beautiful Background Animation
+// YES Button - Final Page
 yesBtn.addEventListener("click", () => {
     document.body.innerHTML = `
     <div class="final-page" id="finalPage">
-        <!-- Background Animated Hearts -->
         <div id="bg-animations"></div>
-        
         <div class="final-content">
             <h1 class="final-heading" style="font-size:42px; margin-bottom:30px;">
                 Thank you, my love ❤️
             </h1>
             <div class="final-text" id="final-msg"></div>
         </div>
-        
         <div class="signature">
             made with love,<br>
             Your Stupid Azhanuu ❤️
         </div>
     </div>`;
 
-    // Background slow floating hearts
+    // ... (rest of your final page code remains the same)
     const bgContainer = document.getElementById("bg-animations");
     function createBgHeart() {
         const heart = document.createElement("div");
@@ -241,17 +236,12 @@ yesBtn.addEventListener("click", () => {
         heart.style.animationDelay = "-" + Math.random() * 25 + "s";
         heart.style.opacity = 0.08 + Math.random() * 0.08;
         bgContainer.appendChild(heart);
-        
         setTimeout(() => heart.remove(), 50000);
     }
-
-    // Create many background hearts
-    for(let i = 0; i < 18; i++) {
-        createBgHeart();
-    }
+    for(let i = 0; i < 18; i++) createBgHeart();
     setInterval(createBgHeart, 1800);
 
-    // Joy particles (foreground)
+    // Rest of your final page script (particles, music, typing message) remains unchanged
     let particlesStopped = false;
     const particles = ["💕", "✨", "❤️"];
     const particleInterval = setInterval(() => {
@@ -269,14 +259,12 @@ yesBtn.addEventListener("click", () => {
         setTimeout(() => p.remove(), 20000);
     }, 600);
 
-    // Music
     const music = document.createElement("audio");
     music.src = "https://www.bensound.com/bensound-music/bensound-love.mp3";
     music.loop = true;
     music.autoplay = true;
     document.body.appendChild(music);
 
-    // Message
     const msg = `Mere Jaan let’s start again in a better way ❤️
 Jo bhi hua, jaise bhi hua, everything changed but my love for you is constant hamesha say.
 Hum ne 2 saal ek saath boht achay se spend kiye — kuch ghaltiyan thin, but I promise I’ll become a better person for you.
@@ -284,10 +272,9 @@ It’s already been too much, meri jaan… please, ab bas kar do.
 Jo kehna hai, jitna ghussa nikalna hai, mere paas aa ke nikal dena.
 I can do anything… but losing you is something I cannot afford.
 Waiting for you, my love 💖`;
-
+    
     let j = 0;
     const finalMsg = document.getElementById("final-msg");
-    
     function typeFinal() {
         if (j < msg.length) {
             finalMsg.innerHTML += msg[j] === "\n" ? "<br><br>" : msg[j];
